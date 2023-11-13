@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://mikiflix-vercel.app">
-    <img alt="mikiflix" src="mikiflix-.svg" width="150">
+    <img alt="mikiflix" src="mikiflix.svg" width="150">
   </a>
 </p>
 
