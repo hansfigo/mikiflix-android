@@ -1,0 +1,44 @@
+<androidx.cardview.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="140dp"
+    android:layout_height="200dp"
+    android:layout_marginBottom="28dp"
+    card_view:cardCornerRadius="8dp"
+    android:id="@+id/cardView">
+
+    <ImageView
+        android:id="@+id/anime_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        tools:layout_conversion_absoluteHeight="200dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="140dp"
+        android:layout_gravity="top" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_background"
+        tools:layout_conversion_absoluteHeight="200dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="140dp"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp"
+        android:id="@+id/info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|bottom"
+        android:textColor="@android:color/white"
+        android:layout_gravity="bottom|start" />
+
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771682157948",
+    "project_id": "mikiflix-7cd22",
+    "storage_bucket": "mikiflix-7cd22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771682157948:android:292b0e0a7fe1439cbb90f9",
+        "android_client_info": {
+          "package_name": "com.example.mikiflix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rENjGqIUayaKZ6jxaWLBFNSAyvNj4xE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
