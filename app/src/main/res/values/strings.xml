@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">mikiflix</string>
+    <string name="welcome_bac">Welcome Back</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="password">Password</string>
+    <string name="enter_passw">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="create_an_a">Create an Account?</string>
+    <string name="register">Register</string>
+    <string name="welcome_to_">Welcome to Mikiflix</string>
+    <string name="username">
+        Username
+    </string>
+    <string name="re_type_pas">
+Re-type Password
+</string>
+    <string name="enter_usern">
+Enter Username
+</string>
 </resources>

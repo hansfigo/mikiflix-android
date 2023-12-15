@@ -28,9 +28,10 @@ class HomePage : AppCompatActivity() {
         binding = HomePageBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        val apiURL: Map<String, String> = mapOf("monolith" to "https://mikiflix-v2.vercel.app/api/", "micro" to "https://mikiflix-api.vercel.app/meta/anilist/")
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://mikiflix-api.vercel.app/meta/anilist/")
+            .baseUrl(apiURL["monolith"])
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -39,6 +40,12 @@ class HomePage : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_anime_card)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val errorMessage = findViewById<TextView>(R.id.error_message)
+
+
+        binding.account.setOnClickListener {
+            val intent = Intent(this, AccountPageActivity::class.java)
+            startActivity(intent)
+        }
 
         val layoutManager = GridLayoutManager(this, 2)
         recyclerView.layoutManager = layoutManager

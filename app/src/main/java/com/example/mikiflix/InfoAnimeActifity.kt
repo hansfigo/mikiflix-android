@@ -36,8 +36,10 @@ class InfoAnimeActifity : AppCompatActivity() {
             val intent = Intent(this, HomePage::class.java)
             startActivity(intent)
         }
+        val apiURL: Map<String, String> = mapOf("monolith" to "https://mikiflix-v2.vercel.app/api/", "micro" to "https://mikiflix-api.vercel.app/meta/anilist/")
+
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://mikiflix-api.vercel.app/meta/anilist/")
+            .baseUrl(apiURL["monolith"])
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
