@@ -1,26 +1,29 @@
 package com.example.mikiflix
 
 import android.app.Activity
-import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.example.mikiflix.databinding.AccountPageActivityBinding
-import com.example.mikiflix.databinding.HomePageBinding
-import com.google.common.base.Strings
+import com.example.mikiflix.databinding.BottomSheetLayoutBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 
 class AccountPageActivity : Activity() {
     private lateinit var binding: AccountPageActivityBinding
+    private lateinit var bindingBottomSheet: BottomSheetLayoutBinding
 
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val bottomSheetLayout = R.layout.bottom_sheet_layout
         binding = AccountPageActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -28,6 +31,26 @@ class AccountPageActivity : Activity() {
         binding.btnLogout.setOnClickListener {
             signOut()
         }
+
+        binding.edit.setOnClickListener {
+            // Create a bottom sheet dialog
+            val bottomSheetDialog = BottomSheetDialog(this)
+            bindingBottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
+            bottomSheetDialog.setContentView(bindingBottomSheet.root)
+
+            // Show the bottom sheet dialog
+            bottomSheetDialog.show()
+
+            // Set the text after the bottom sheet dialog is shown
+            updateEditTextFormText()
+
+            bindingBottomSheet.buttonEditName.setOnClickListener {
+                updateUsername()
+                bottomSheetDialog.dismiss()
+            }
+        }
+
+
 
     }
 
@@ -42,7 +65,6 @@ class AccountPageActivity : Activity() {
             startActivity(intent)
         }
 
-
         binding.userEmail.text = auth.currentUser?.email.toString()
 
         currentUser?.let {
@@ -50,13 +72,51 @@ class AccountPageActivity : Activity() {
             if (!name.isNullOrEmpty()) {
                 binding.userName.text = name
                 binding.userName.visibility = View.VISIBLE
+
+                // Update the text in the bottom sheet if it's already shown
+                updateEditTextFormText()
             } else {
                 binding.noname.visibility = View.VISIBLE
             }
         }
     }
 
-    private fun signOut (){
+
+    private fun updateUsername() {
+        // Check if bindingBottomSheet is initialized and editTextForm is not null
+        if (::bindingBottomSheet.isInitialized && bindingBottomSheet.editTextForm != null) {
+            val newName = bindingBottomSheet.editTextForm.text.toString()
+
+            val profileUpdates = userProfileChangeRequest {
+                displayName = newName
+            }
+
+            auth.currentUser!!.updateProfile(profileUpdates)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "User profile updated.")
+                    }
+                }
+            binding.userName.text = newName
+
+        }
+    }
+
+
+
+    private fun updateEditTextFormText() {
+        // Check if bindingBottomSheet is initialized and editTextForm is not null
+        if (::bindingBottomSheet.isInitialized && bindingBottomSheet.editTextForm != null) {
+            val name = auth.currentUser?.displayName
+            name?.let {
+                bindingBottomSheet.editTextForm.setText(it)
+            }
+        }
+    }
+
+
+
+    private fun signOut() {
         auth.signOut()
 
         val intent = Intent(this, LoginActivity::class.java)
