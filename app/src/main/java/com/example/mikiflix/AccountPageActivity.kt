@@ -17,22 +17,27 @@ import com.google.firebase.ktx.Firebase
 class AccountPageActivity : Activity() {
     private lateinit var binding: AccountPageActivityBinding
     private lateinit var bindingBottomSheet: BottomSheetLayoutBinding
-
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val bottomSheetLayout = R.layout.bottom_sheet_layout
+        //Render Seluruh UI
         binding = AccountPageActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        binding.btnLogout.setOnClickListener {
-            signOut()
-        }
+        // Button
+        val btnLogout = binding.btnLogout
+        val btnEdit = binding.edit
+        val btnDeleteAccount = binding.btnDeleteAcc
 
-        binding.edit.setOnClickListener {
+
+        // Button Listener, lakukan something ketika ada interaksi pada button tadi
+
+
+        //Listener untuk Edit Username dan summon bottom sheet
+        btnEdit.setOnClickListener {
             // Create a bottom sheet dialog
             val bottomSheetDialog = BottomSheetDialog(this)
             bindingBottomSheet = BottomSheetLayoutBinding.inflate(layoutInflater)
@@ -44,14 +49,22 @@ class AccountPageActivity : Activity() {
             // Set the text after the bottom sheet dialog is shown
             updateEditTextFormText()
 
-            bindingBottomSheet.buttonEditName.setOnClickListener {
+            val buttonSaveUsername = bindingBottomSheet.buttonEditName
+
+            //Update username dan close bottom Sheet
+            buttonSaveUsername.setOnClickListener {
                 updateUsername()
                 bottomSheetDialog.dismiss()
             }
         }
 
-
-
+        //Listener untuk Logout
+        btnLogout.setOnClickListener {
+            signOut()
+        }
+        btnDeleteAccount.setOnClickListener {
+            deleteAccount()
+        }
     }
 
     override fun onStart() {
@@ -114,6 +127,17 @@ class AccountPageActivity : Activity() {
         }
     }
 
+    private fun deleteAccount(){
+        auth.currentUser?.delete()
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "User account deleted.")
+
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+    }
 
 
     private fun signOut() {
