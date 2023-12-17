@@ -5,8 +5,10 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.example.mikiflix.databinding.AccountPageActivityBinding
 import com.example.mikiflix.databinding.HomePageBinding
+import com.google.common.base.Strings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -42,6 +44,16 @@ class AccountPageActivity : Activity() {
 
 
         binding.userEmail.text = auth.currentUser?.email.toString()
+
+        currentUser?.let {
+            val name = it.displayName
+            if (!name.isNullOrEmpty()) {
+                binding.userName.text = name
+                binding.userName.visibility = View.VISIBLE
+            } else {
+                binding.noname.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun signOut (){

@@ -2,14 +2,15 @@ package com.example.mikiflix
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.mikiflix.databinding.LoginPageBinding
 import com.example.mikiflix.databinding.RegisterPageActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 
 class RegisterPageActivity : Activity() {
@@ -38,10 +39,12 @@ class RegisterPageActivity : Activity() {
         val view = binding.root
         setContentView(view)
 
-        binding.btnLogin.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             val email = binding.inputEmail.text.toString()
             val password = binding.inputPasswd.text.toString()
-            register(email, password)
+            val username = binding.inputUsername.text.toString()
+
+            register(email, password, username)
         }
 
         binding.navLogin.setOnClickListener {
@@ -50,11 +53,31 @@ class RegisterPageActivity : Activity() {
         }
     }
 
-    private fun register(email : String,  password : String){
+    private fun register(email : String,  password : String, username : String){
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(ContentValues.TAG, "signInWithEmail:success")
+
+                    val user = auth.currentUser
+
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = username
+                    }
+
+                    user!!.updateProfile(profileUpdates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "User profile updated.")
+                            }
+                        }
+
+                    Toast.makeText(
+                        baseContext,
+                        "User Berhasil Dibuat",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                 } else {
